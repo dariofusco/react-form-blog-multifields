@@ -3,13 +3,16 @@ import { FaTrashAlt } from "react-icons/fa";
 
 function Form() {
 
+    const tagsList = ['html', 'css', 'js', 'php'];
+
     const [posts, setPosts] = useState([]);
     //const [title, setTitle] = useState('');
 
     const defaultPostData = {
         title: "",
         image: "",
-        content: ""
+        content: "",
+        tags: []
     }
 
     const [postData, setPostData] = useState(defaultPostData);
@@ -64,6 +67,29 @@ function Form() {
                     />
                 </div>
 
+                <div className="form-element">
+                    <label>Tags:</label>
+                    <ul>
+                        {tagsList.map((tag, index) => (
+                            <li key={index}>
+                                <input
+                                    type="checkbox"
+                                    checked={postData.tags.includes(tag)}
+                                    onChange={() => {
+                                        const current = postData.tags
+                                        const newTags = current.includes(tag) ?
+                                            current.filter(element => element !== tag) :
+                                            [...current, tag];
+                                        changePostData('tags', newTags)
+                                    }}
+                                />
+                                {tag}
+                            </li>
+                        ))}
+                    </ul>
+
+                </div>
+
                 <button>Aggiungi</button>
 
             </form>
@@ -76,6 +102,11 @@ function Form() {
                         <img src={post.image} alt="" />
                         <h3>{post.title}</h3>
                         <p>{post.content}</p>
+                        <div className="badge">
+                            {post.tags.map((tag, index) => (
+                                <span className="tag" key={index}>{tag}</span>
+                            ))}
+                        </div>
                         <button onClick={() => removePost(index)}><FaTrashAlt /></button>
                     </div>
                 ))}
