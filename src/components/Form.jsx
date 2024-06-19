@@ -12,6 +12,7 @@ function Form() {
         title: "",
         image: "",
         content: "",
+        published: false,
         tags: []
     }
 
@@ -87,7 +88,18 @@ function Form() {
                             </li>
                         ))}
                     </ul>
+                </div>
 
+                <div className="form-element">
+                    <label>Pubblicare:</label>
+                    <select
+                        name="published"
+                        value={postData.published}
+                        onChange={event => changePostData("published", event.target.value)}
+                    >
+                        <option value={true}>Si</option>
+                        <option value={false}>No</option>
+                    </select>
                 </div>
 
                 <button>Aggiungi</button>
@@ -96,9 +108,8 @@ function Form() {
 
 
             <div className="container">
-
                 {posts.map((post, index) => (
-                    <div className="card" key={index}>
+                    <div className={`card ${post.published ? 'published' : ''}`} key={index}>
                         <img src={post.image} alt="" />
                         <h3>{post.title}</h3>
                         <p>{post.content}</p>
