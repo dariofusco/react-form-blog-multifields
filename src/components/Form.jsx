@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { FaTrashAlt } from "react-icons/fa";
 
 function Form() {
@@ -6,7 +6,6 @@ function Form() {
     const tagsList = ['html', 'css', 'js', 'php'];
 
     const [posts, setPosts] = useState([]);
-    //const [title, setTitle] = useState('');
 
     const defaultPostData = {
         title: "",
@@ -18,11 +17,17 @@ function Form() {
 
     const [postData, setPostData] = useState(defaultPostData);
 
+    const isEmpty = postData.title.trim().length === 0;
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        if (isEmpty) {
+            return;
+        }
+
         setPosts(array => ([...array, postData]));
-        //setTitle('');
+
         setPostData(defaultPostData);
     }
 
@@ -42,7 +47,7 @@ function Form() {
                 <h1>Aggiungi un Post:</h1>
 
                 <div className="form-element">
-                    <label>Titolo:</label>
+                    <label><strong>Titolo:</strong></label>
                     <input
                         type="text"
                         value={postData.title}
@@ -51,7 +56,7 @@ function Form() {
                 </div>
 
                 <div className="form-element">
-                    <label>Immagine:</label>
+                    <label><strong>Immagine:</strong></label>
                     <input
                         type="text"
                         value={postData.image}
@@ -60,7 +65,7 @@ function Form() {
                 </div>
 
                 <div className="form-element">
-                    <label>Contenuto:</label>
+                    <label><strong>Contenuto:</strong></label>
                     <input
                         type="text"
                         value={postData.content}
@@ -69,8 +74,8 @@ function Form() {
                 </div>
 
                 <div className="form-element">
-                    <label>Tags:</label>
                     <ul>
+                        <label><strong>Tags:</strong></label>
                         {tagsList.map((tag, index) => (
                             <li key={index}>
                                 <input
@@ -91,7 +96,7 @@ function Form() {
                 </div>
 
                 <div className="form-element">
-                    <label>Pubblicare:</label>
+                    <label><strong>Pubblicare:</strong></label>
                     <select
                         name="published"
                         value={postData.published}
@@ -105,7 +110,6 @@ function Form() {
                 <button>Aggiungi</button>
 
             </form>
-
 
             <div className="container">
                 {posts.map((post, index) => (
